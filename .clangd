@@ -1,0 +1,8 @@
+# As I am using windows, my raylib library binary file is located in the path below...
+# Please modify as you need 
+CompileFlags:
+  Add: 
+  - "-IC:/dev/software/raylib-5.5_win64_mingw-w64/include"
+  - "-IC:/dev/repos/3d-particles/include"
+  - "-LC:/dev/software/raylib-5.5_win64_mingw-w64/lib"
+
