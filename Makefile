@@ -24,7 +24,9 @@ DEPENDENCIES = -lraylib $(WINDOWS_DEPENDENCIES)
 
 SRC_FILES = $(SRC_FOLDER)/main.c \
 						$(SRC_FOLDER)/global.c \
-						$(SRC_FOLDER)/particle.c 
+						$(SRC_FOLDER)/particle.c \
+						$(SRC_FOLDER)/util.c \
+						$(SRC_FOLDER)/logger.c 
 
 #TODO(Ali): Add incremental build 
 #TODO(Ali): Add recursive directory file search
