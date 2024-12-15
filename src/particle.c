@@ -1,6 +1,7 @@
 #include "particle.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 
 particle_list_t* init_particle_list() {
   particle_list_t* list = (particle_list_t*)malloc(sizeof(particle_list_t));
@@ -11,10 +12,10 @@ particle_list_t* init_particle_list() {
 
 void particle_list_add(particle_list_t* list, Vector3 pos, Color color) {
   particle_t p;
-  p.pos = (Vector3){100,100,100};
+  p.pos = pos;
   p.vel = (Vector3){0,0,0};
   p.acc = (Vector3){0,0,0};
-  p.radius = 100;
+  p.radius = 1 + rand() % 25;
   p.color = color;
   p.active = 1;
 

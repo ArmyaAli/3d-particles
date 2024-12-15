@@ -1,6 +1,5 @@
 #include "global.h"
 #include "raylib.h"
-#include <stdio.h>
 #include <util.h>
 #include <stdlib.h>
 #include <logger.h>
@@ -36,16 +35,19 @@ int main() {
     BeginDrawing();
     BeginMode3D(camera);
 
-    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+    Update();
+
+    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
       float x_rand = rand() % 799;
       float y_rand = rand() % 399;
-      float z_rand = rand() % 2;
+      float z_rand = rand() % 399;
       print_vector3((Vector3){x_rand, y_rand, z_rand});
+
       particle_list_add(PARTICLE_BUFFER, (Vector3){x_rand, y_rand, z_rand}, GREEN);
-      log(&Logger, INFO, "Added to the list");
+
+      log(&Logger, INFO, "Mouse button pressed. New Particle added to the list");
     }
 
-    Update();
     Draw();
     EndMode3D();
     EndDrawing();
@@ -68,7 +70,6 @@ void Draw() {
   // Draw all our particles
   for(int i = 0; i < PARTICLE_BUFFER->size; ++i) {
     particle_t entry = PARTICLE_BUFFER->data[i];
-    entry.radius = 30;
     if(entry.active) { 
       DrawSphere(entry.pos, entry.radius, entry.color);
     }
