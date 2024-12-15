@@ -11,10 +11,12 @@ particle_list_t* init_particle_list() {
 
 void particle_list_add(particle_list_t* list, Vector3 pos, Color color) {
   particle_t p;
-  p.pos = pos;
+  p.pos = (Vector3){100,100,100};
   p.vel = (Vector3){0,0,0};
   p.acc = (Vector3){0,0,0};
+  p.radius = 100;
   p.color = color;
+  p.active = 1;
 
   int size = list->size;
   list->data[size] = p;
@@ -43,5 +45,5 @@ void particle_list_print(particle_list_t* list) {
   for(int i = 0; i < list->size; ++i) {
     printf("i=%d\n", i);
   }
-  printf("BEGIN: LIST_SIZE=%d\n", list->size);
+  printf("END: LIST_SIZE=%d\n", list->size);
 }

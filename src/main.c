@@ -1,14 +1,23 @@
 #include "global.h"
 #include "raylib.h"
 #include <stdio.h>
+#include <util.h>
+#include <stdlib.h>
+#include <logger.h>
 
 void Init();
 void Update();
 void Draw();
 
+
 int main() {
   InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE);
   Init();
+
+
+  logger_t Logger; 
+  logger_init(&Logger, INFO);
+  log(&Logger, INFO, "Setting up Camera"); 
 
   // Camera init
   // Define the camera to look into our 3d world
@@ -28,14 +37,15 @@ int main() {
     BeginMode3D(camera);
 
     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-      printf("x: %f, y: %f\n", mouse.x, mouse.y);
-      particle_list_add(PARTICLE_BUFFER, (Vector3){2.0f,2.0f,1.0f}, RED);
-      printf("Added to the list\n");
+      float x_rand = rand() % 799;
+      float y_rand = rand() % 399;
+      float z_rand = rand() % 2;
+      print_vector3((Vector3){x_rand, y_rand, z_rand});
+      particle_list_add(PARTICLE_BUFFER, (Vector3){x_rand, y_rand, z_rand}, GREEN);
+      log(&Logger, INFO, "Added to the list");
     }
+
     Update();
-    DrawSphere((Vector3){1.0f, 1.0f, x}, 1.0f, RED);
-    x += 0.1f;
-    DrawGrid(10, 1.0f);
     Draw();
     EndMode3D();
     EndDrawing();
@@ -45,7 +55,7 @@ int main() {
 
 void Init() {
   SetTargetFPS(60); // 60 FPS
-   DisableCursor();
+  DisableCursor();
   // let's init our particle list
   PARTICLE_BUFFER = init_particle_list();
 }
@@ -55,11 +65,14 @@ void Update() {
 }
 
 void Draw() {
-    for(int i = 0; i < PARTICLE_BUFFER->size; ++i) {
-      particle_t entry = PARTICLE_BUFFER->data[i];
-      if(entry.active) { 
-        DrawSphere(entry.pos, entry.radius, entry.color);
-      }
+  // Draw all our particles
+  for(int i = 0; i < PARTICLE_BUFFER->size; ++i) {
+    particle_t entry = PARTICLE_BUFFER->data[i];
+    entry.radius = 30;
+    if(entry.active) { 
+      DrawSphere(entry.pos, entry.radius, entry.color);
     }
-    DrawGrid(10, 1.0f);
+  }
+  // Draw the grid for debugging
+  DrawGrid(10, 1.0f);
 }
